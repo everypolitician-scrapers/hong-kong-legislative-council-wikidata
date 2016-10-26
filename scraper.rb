@@ -3,10 +3,16 @@
 
 require 'wikidata/fetcher'
 
-names = EveryPolitician::Wikidata.wikipedia_xpath( 
+names_5 = EveryPolitician::Wikidata.wikipedia_xpath(
   url: 'https://en.wikipedia.org/wiki/5th_Legislative_Council_of_Hong_Kong',
   xpath: '//h2[span[contains(.,"List of Members")]]/following-sibling::table[1]//tr[td]/td[4]//a[not(@class="new")]/@title',
 )
 
-names << 'Alvin Yeung'
-EveryPolitician::Wikidata.scrape_wikidata(names: { en: names })
+names_6 = EveryPolitician::Wikidata.wikipedia_xpath(
+  url: 'https://en.wikipedia.org/wiki/6th_Legislative_Council_of_Hong_Kong',
+  after: '//span[@id="List_of_members"]',
+  before: '//span[@id="Committees"]',
+  xpath: '//table//tr[td]/td[4]//a[not(@class="new")]/@title',
+)
+
+EveryPolitician::Wikidata.scrape_wikidata(names: { en: names_5 | names_6 })
