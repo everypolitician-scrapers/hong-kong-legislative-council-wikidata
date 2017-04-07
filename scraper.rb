@@ -5,7 +5,9 @@ require 'wikidata/fetcher'
 
 names_5 = EveryPolitician::Wikidata.wikipedia_xpath(
   url: 'https://en.wikipedia.org/wiki/5th_Legislative_Council_of_Hong_Kong',
-  xpath: '//h2[span[contains(.,"List of Members")]]/following-sibling::table[1]//tr[td]/td[4]//a[not(@class="new")]/@title',
+  after: '//span[@id="List_of_members"]',
+  before: '//span[@id="Other_changes"]',
+  xpath: './/tr[td]/td[4]//a[not(@class="new")]/@title',
 )
 
 names_6 = EveryPolitician::Wikidata.wikipedia_xpath(
