@@ -17,4 +17,12 @@ names_6 = EveryPolitician::Wikidata.wikipedia_xpath(
   xpath: '//table//tr[td]/td[4]//a[not(@class="new")]/@title',
 )
 
-EveryPolitician::Wikidata.scrape_wikidata(names: { en: names_5 | names_6 })
+sparq = <<~SPARQL
+  SELECT DISTINCT ?item WHERE {
+    ?item p:P39 [ ps:P39 wd:Q27908372 ; pq:P2937 ?term ] .
+    ?term p:P31/pq:P1545 ?ordinal FILTER(xsd:integer(?ordinal) >= 5)
+  }
+SPARQL
+ids = EveryPolitician::Wikidata.sparql(sparq)
+
+EveryPolitician::Wikidata.scrape_wikidata(ids: ids, names: { en: names_5 | names_6 })
